@@ -38,3 +38,9 @@ CREATE TABLE payment_attempts (
     idempotency_key TEXT UNIQUE NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX idx_invoices_subscription
+ON invoices(subscription_id);
+
+CREATE INDEX idx_payments_invoice
+ON payment_attempts(invoice_id);
