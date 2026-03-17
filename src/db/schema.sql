@@ -33,7 +33,7 @@ CREATE TABLE invoices (
 CREATE TABLE payment_attempts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     invoice_id INTEGER NOT NULL REFERENCES invoices(id) ON DELETE CASCADE,
-    attempt_number INTEGER NOT NULL,
+    attempt_number INTEGER NOT NULL CHECK (attempt_number > 0),
     status TEXT NOT NULL CHECK (status IN ('pending', 'success', 'failed')),
     idempotency_key TEXT UNIQUE NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
