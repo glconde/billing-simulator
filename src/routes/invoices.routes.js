@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { generateInvoice } = require("../services/billing.service");
 
-router.post("/", async (req, res) => {
+router.post("/generate", async (req, res) => {
   try {
     const { subscriptionId } = req.body || {};
 

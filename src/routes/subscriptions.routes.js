@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { createSubscription } = require("../services/billing.service");
 
-router.post("/", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const { customerId, planName, monthlyAmount } = req.body || {};
 

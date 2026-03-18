@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { createCustomer } = require("../services/billing.service");
 
-router.post("/", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const { name, email } = req.body || {};
 

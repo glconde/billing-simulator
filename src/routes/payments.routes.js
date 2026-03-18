@@ -2,12 +2,20 @@ const express = require("express");
 const router = express.Router();
 const { attemptPayment } = require("../services/payment.service");
 
-router.post("/", async (req, res) => {
+router.post("/attempt", async (req, res) => {
   try {
     const { invoiceId, result, idempotencyKey } = req.body || {};
-    if (!invoiceId || !result || !idempotencyKey) {
+    const parsedInvoiceId = Number(invoiceId);
+
+    if (
+      !Number.isInteger(parsedInvoiceId) ||
+      parsedInvoiceId <= 0 ||
+      !result ||
+      !idempotencyKey
+    ) {
       return res.status(400).json({
-        error: "invoiceId, result, and idempotencyKey are required",
+        error:
+          "invoiceId must be a positive integer, and result and idempotencyKey are required",
       });
     }
     if (!["success", "failed"].includes(result)) {
@@ -16,7 +24,7 @@ router.post("/", async (req, res) => {
         .json({ error: "result must be either 'success' or 'failed'" });
     }
     const paymentResult = await attemptPayment(
-      invoiceId,
+      parsedInvoiceId,
       result,
       idempotencyKey,
     );
