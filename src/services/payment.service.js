@@ -19,10 +19,12 @@ async function attemptPayment(invoiceId, result, idempotencyKey) {
     if (existingAttempt.invoice_id !== invoiceId) {
       throw new Error("Idempotency key already used for a different invoice");
     }
+
     const existingInvoice = await getQuery(
       "SELECT status FROM invoices WHERE id = ?",
       [existingAttempt.invoice_id],
     );
+
     return {
       invoiceId: existingAttempt.invoice_id,
       attemptNumber: existingAttempt.attempt_number,
